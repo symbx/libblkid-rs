@@ -1,4 +1,4 @@
-/// Checks whether a devices is in use by either a set of partitions or a partition
+/// Checks whether a devices are in use by either a set of partitions or a partition
 /// type indicated by the superblock.
 use std::{
     env,
