@@ -2,5 +2,5 @@
 #![allow(non_upper_case_globals)]
 #![allow(non_snake_case)]
 #![allow(deref_nullptr)]
-
+#![allow(unnecessary_transmutes)]
 include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
