@@ -179,6 +179,17 @@ impl BlkidProbe {
         errno!(unsafe { libblkid_rs_sys::blkid_probe_enable_partitions(self.0, enable.into()) })
     }
 
+    /// Enable or disable `PART_ENTRY_*` (`PARTLABEL`/`PARTUUID`/etc.) result
+    /// tags. Without this, probing a *partition* device directly (as opposed
+    /// to the whole disk) with `enable_partitions(true)` alone finds the
+    /// partition table chain but does not expose the individual partition's
+    /// own entry as tag/value results - `lookup_value("PARTLABEL")` etc.
+    pub fn set_partition_entry_details(&mut self, enable: bool) -> Result<()> {
+        const BLKID_PARTS_ENTRY_DETAILS: libc::c_int = 1 << 2;
+        let flags = if enable { BLKID_PARTS_ENTRY_DETAILS } else { 0 };
+        errno!(unsafe { libblkid_rs_sys::blkid_probe_set_partitions_flags(self.0, flags) })
+    }
+
     /// Reset the partition filter.
     pub fn reset_partition_filter(&mut self) -> Result<()> {
         errno!(unsafe { libblkid_rs_sys::blkid_probe_reset_partitions_filter(self.0) })
